@@ -1,0 +1,475 @@
+\ProvidesPackage{macros}
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{enumitem}
+\RequirePackage[many, skins]{tcolorbox}
+\RequirePackage{xcolor}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Util and Styling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\allbf}[1]{{\boldmath\bfseries#1}}
+\newcommand{\pfhone}[1]{\vspace{\parskip} {\Large \allbf{#1}} \vspace{\parskip}}
+\newcommand{\pfhtwo}[1]{\vspace{\parskip} {\large \allbf{#1}}}
+
+\definecolor{dimgray}{RGB}{105, 105, 105}
+\definecolor{customblue}{RGB}{128, 244, 255}
+\definecolor{customgreen}{RGB}{201, 255, 64}
+\definecolor{customorange}{RGB}{255, 223, 64}
+\definecolor{custompink}{RGB}{255, 166, 225}
+\definecolor{lightgray}{RGB}{211, 211, 211}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+
+% makes period custom-styled iff there's no `thmnote`/theorem name, as name is left unstyled
+% and going from styled theorem number to unstyled theorem name back to styled ending punct is kinda weird
+% the 3 params are theorem type (e.g. `Theorem` vs. `Definition`), theorem counter, and theorem name
+\newcommand{\thmheadingformat}[3]{%
+    \thmname{#1}\@ifempty{#2}{}{\ }%
+    \thmnumber{#2}%
+    {%
+        \thmnote{%
+            \unboldmath\normalfont{\@ifempty{#3}{}{\ (#3)}}%
+        }%
+    }%
+    \@ifempty{#3}{.}{.}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{eqsystem}[1][rl]
+    {\setlength\arraycolsep{0.15em}\mleft\{\begin{array}{#1}}
+    {\end{array}\mright.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorems
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheoremstyle{thm}
+    {2.5\parskip}                   % space above
+    {1.5\parskip}                   % space below
+    {\normalfont}                   % body font style
+    {0pt}                           % heading indent
+    {\boldmath\bfseries}            % heading font style
+    {}                              % heading end punctuation
+    {5pt plus 1pt minus 1pt}        % horizontal space after heading end punct and before thm body
+    {\thmheadingformat{#1}{#2}{#3}} % heading format
+
+\newtheoremstyle{rmk}
+    {2.5\parskip}
+    {1.5\parskip}
+    {\normalfont\color{dimgray}}
+    {0pt}
+    {\boldmath\bfseries}
+    {.}
+    {5pt plus 1pt minus 1pt}
+    {}
+
+\newtheoremstyle{pf}
+    {2.5\parskip}
+    {1.5\parskip}
+    {\normalfont}
+    {0pt}
+    {\boldmath\bfseries}
+    {.}
+    {5pt plus 1pt minus 1pt}
+    {%
+        \thmname{%
+            \@ifempty{#3}{#1}{#3}%
+        }%
+    }
+
+\newtcolorbox{thmbox}[1][custompink]{%
+    breakable,
+    enhanced,
+    parbox=false, % prevents `\parskip` from being reset inside the box
+    before skip balanced=2.5\parskip,
+    after skip balanced=2.5\parskip,
+    boxrule=2.5pt,
+    arc=2pt,
+    colframe=#1,
+    colback=white,
+    top=0.5em,
+    left=0.75em,
+    bottom=0.5em,
+    right=0.75em%
+}
+
+\newtcolorbox{pfbox}[1][lightgray]{%
+    breakable,
+    enhanced,
+    parbox=false,
+    before skip balanced=2.5\parskip,
+    after skip balanced=2.5\parskip,
+    frame hidden,
+    borderline west={2.5pt}{0pt}{#1},
+    colback=white,
+    boxsep=0em,
+    top=0em,
+    left=1em,
+    bottom=0em,
+    right=0em%
+}
+
+\newtcolorbox{impt}{%
+    breakable,
+    enhanced,
+    parbox=false,
+    before skip balanced=2.5\parskip,
+    after skip balanced=2.5\parskip,
+    frame hidden,
+    borderline north={4pt}{0pt}{customorange},
+    borderline east={4pt}{0pt}{customgreen},
+    borderline south={4pt}{0pt}{customblue},
+    borderline west={4pt}{0pt}{custompink},
+    colback=white,
+    top=0.75em,
+    left=1em,
+    bottom=0.75em,
+    right=1em%
+}
+
+\newtcolorbox{algorithmbox}{%
+    breakable,
+    enhanced,
+    parbox=false,
+    before skip balanced=\parskip,
+    after skip balanced=\parskip,
+    boxrule=0.5pt,
+    sharp corners,
+    colframe=black,
+    colback=white,
+    top=0.5em,
+    left=0.75em,
+    bottom=0.5em,
+    right=0.75em%
+}
+
+\theoremstyle{thm}
+
+% the `subsection` here means that theorem counters' penultimate unit is the subsection
+% i.e. `section.subsection.theorem`
+\newtheorem{thminner}{Theorem}[subsection]
+\newtheorem*{thminner*}{Theorem}
+\newenvironment{thm}[1][]{%
+    \begin{thmbox}%
+        \begin{thminner}[#1]%
+}{%
+        \end{thminner}%
+    \end{thmbox}%
+}
+\newenvironment{thm*}[1][]{%
+    \begin{thmbox}%
+        \begin{thminner*}[#1]%
+}{%
+        \end{thminner*}%
+    \end{thmbox}%
+}
+
+% the `thminner` here means that corollary counters are shared with `thminner`s
+% i.e. don't start at "Corollary 1.1.1"  after "Theorem 1.1.3"; instead do "Corollary 1.1.4"
+\newtheorem{coroinner}[thminner]{Corollary}
+\newtheorem*{coroinner*}{Corollary}
+\newenvironment{coro}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{coroinner}[#1]%
+}{%
+        \end{coroinner}%
+    \end{thmbox}%
+}
+\newenvironment{coro*}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{coroinner*}[#1]%
+}{%
+        \end{coroinner*}%
+    \end{thmbox}%
+}
+
+\newtheorem{leminner}[thminner]{Lemma}
+\newtheorem*{leminner*}{Lemma}
+\newenvironment{lem}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{leminner}[#1]%
+}{%
+        \end{leminner}%
+    \end{thmbox}%
+}
+\newenvironment{lem*}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{leminner*}[#1]%
+}{%
+        \end{leminner*}%
+    \end{thmbox}%
+}
+
+\newtheorem{propinner}[thminner]{Proposition}
+\newtheorem*{propinner*}{Proposition}
+\newenvironment{prop}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{propinner}[#1]%
+}{%
+        \end{propinner}%
+    \end{thmbox}%
+}
+\newenvironment{prop*}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{propinner*}[#1]%
+}{%
+        \end{propinner*}%
+    \end{thmbox}%
+}
+
+\newtheorem{defninner}[thminner]{Definition}
+\newtheorem*{defninner*}{Definition}
+\newenvironment{defn}[1][]{%
+    \begin{thmbox}[customblue]%
+        \begin{defninner}[#1]%
+}{%
+        \end{defninner}%
+    \end{thmbox}%
+}
+\newenvironment{defn*}[1][]{%
+    \begin{thmbox}[customblue]%
+        \begin{defninner*}[#1]%
+}{%
+        \end{defninner*}%
+    \end{thmbox}%
+}
+
+\newtheorem{exer}[thminner]{Exercise}
+\newtheorem*{exer*}{Exercise}
+
+\newtheorem{notatinner}[thminner]{Notation}
+\newtheorem*{notatinner*}{Notation}
+\newenvironment{notat}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{notatinner}[#1]%
+}{%
+        \end{notatinner}%
+    \end{thmbox}%
+}
+\newenvironment{notat*}[1][]{%
+    \begin{thmbox}[lightgray]%
+        \begin{notatinner*}[#1]%
+}{%
+        \end{notatinner*}%
+    \end{thmbox}%
+}
+
+\theoremstyle{rmk}
+
+\newtheorem{ex}[thminner]{Example}
+\newtheorem*{ex*}{Example}
+
+\newtheorem{rmk}[thminner]{Remark}
+\newtheorem*{rmk*}{Remark}
+
+\theoremstyle{pf}
+
+\newtheorem*{pfinner}{Proof}
+\newenvironment{pf}[1][\proofname]{%
+    \begin{pfbox}%
+        \begin{pfinner}[#1]%
+            \pushQED{\qed}%
+}{%
+            \popQED\@endpefalse%
+        \end{pfinner}%
+    \end{pfbox}%
+}
+
+\newenvironment{soln}[1][Solution]
+    {\begin{pf}[#1]\let\qed\relax}
+    {\end{pf}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Structures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlist{deepitemize}{itemize}{10}
+\setlist[deepitemize]{label=\textbullet}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\charac}{char}
+\DeclareMathOperator{\codom}{codom}
+\DeclareMathOperator{\colim}{colim}
+\DeclareMathOperator{\condom}{condom}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\Fix}{Fix}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Iso}{Iso}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\M}{M}
+\DeclareMathOperator{\Maps}{Maps}
+\DeclareMathOperator{\mult}{mult}
+\DeclareMathOperator{\nul}{nul}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\Obj}{Obj}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Perm}{Perm}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\res}{res}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\spann}{span}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\trdeg}{trdeg}
+
+\newcommand{\ab}{\mathrm{ab}}
+\newcommand{\blankln}{~
+
+}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\charsubgp}{\mathrel{\mathrm{char}}}
+\newcommand{\comma}{\text{, }}
+\newcommand{\ceil}[1]{\mleft\lceil #1\mright\rceil}
+\newcommand{\comb}[2]{{}^{#1}C_{#2}}
+\newcommand{\ddx}[1][x]{\frac{\mathrm{d}}{\mathrm{d} #1}}
+\newcommand{\dx}[1][x]{\,\mathrm{d} #1}             % dx at the end of integrals
+\newcommand{\dydx}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand{\dddxx}[1][x]{\frac{\mathrm{d}^2}{\mathrm{d} #1^2}}
+\newcommand{\ddydxx}[2]{\frac{\mathrm{d}^2 #1}{\mathrm{d} #2^2}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\floor}[1]{\mleft\lfloor #1\mright\rfloor}
+\newcommand{\ftc}[3]{\mleft[#1\mright]_{#2}^{#3}}   % fund thm of calc`[]` notation after integration
+\newcommand{\generator}[1]{\langle #1 \rangle}
+\newcommand{\hr}{\rule{\linewidth}{0.4pt}}          % horizontal rule
+\newcommand{\iffshort}{\Leftrightarrow}
+\newcommand{\impliedbyshort}{\Leftarrow}
+\newcommand{\impliesshort}{\Rightarrow}
+\newcommand{\includegraphicscenter}[2][]{%
+    \begin{center}
+        \includegraphics[#1]{#2}
+    \end{center}%
+}
+\newcommand{\innprod}[1]{\langle #1 \rangle}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\natfrom}{\Leftarrow}
+\newcommand{\natto}{\Rightarrow}
+\newcommand{\nattoiso}[1][]{\xRightarrow[#1]{\sim}}
+\newcommand{\niff}{\centernot\iff}
+\newcommand{\nimplies}{\centernot\implies}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\p}{\phantom{-}}
+\newcommand{\perm}[2]{{}^{#1}P_{#2}}
+\newcommand{\pfpxpy}[3]{\frac{\partial^2 #1}{\partial #2 \partial #3}}
+\newcommand{\pfpxx}[2]{\frac{\partial^2 #1}{\partial^2 #2}}
+\newcommand{\powerset}{\mathcal{P}}
+\newcommand{\ppx}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\pppxpy}[2]{\frac{\partial^2}{\partial #1 \partial #2}}
+\newcommand{\pppxx}[1][x]{\frac{\partial^2}{\partial #1^2}}
+\newcommand{\pypx}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\quats}{\mathbb{H}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\suchthat}{\,\vert\,}
+\newcommand{\suchthatlr}{\,\middle\vert\,}
+\newcommand{\tobij}[1][]{\xleftrightarrow{#1}} % pass optional arg in square brackets for label
+\newcommand{\toinc}[1][]{\xhookrightarrow{#1}}
+\newcommand{\toinj}{\rightarrowtail}           % gah no labeled version
+\newcommand{\toiso}[1][]{\xrightarrow[#1]{\sim}}
+\newcommand{\tosur}{\twoheadrightarrow}
+\newcommand{\xto}[1]{\xrightarrow{#1}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\renewcommand{\restriction}{\vert}
+
+% Use this if ending proof in display math mode or nested environment to make QED not go onto next line.
+%
+% Prerequisites:
+%    - No other `\tag` is being used on last line of equation
+\newcommand{\qedinside}{%
+    \relax\ifmmode%
+        \tag*{\qedhere}%
+    \else%
+        \qedhere%
+    \fi%
+}
+
+% Column/row vectors with parentheses.
+%
+% Usage:
+%    - `\vect{}{}...\vend`
+%    - `\rvect{}{}...\rend`
+%
+% (Who knew my Assembly class would be useful for implementing a while loop in LaTeX?)
+\newcommand{\vect}[1]{\begin{pmatrix} #1 \@vectorcheck}     % starts first row and checks for more
+\newcommand\@vectorcheck{%                                  % branch dependending on if `\vend` is read
+    \@ifnextchar\vend{%
+        \@vectorend%
+    }{%
+        \@vectorrow%
+    }%
+}
+\newcommand\@vectorrow[1]{\\ #1 \@vectorcheck}              % prints a row and checks for more
+\newcommand\@vectorend{\end{pmatrix}}                       % ends the column vector
+\newcommand{\vend}{}
+
+\newcommand{\rvect}[1]{\begin{pmatrix} #1 \@rowvectorcheck} % same thing but for row matrices
+\newcommand\@rowvectorcheck{%
+    \@ifnextchar\rvend{%
+        \@rowvectorend%
+    }{%
+        \@rowvectorcolumn%
+    }%
+}
+\newcommand\@rowvectorcolumn[1]{& #1 \@rowvectorcheck}
+\newcommand\@rowvectorend{\end{pmatrix}}
+\newcommand{\rvend}{}
+
+% Natural transformation "visual" notation.
+%
+% Params: `\nattrans[#1]{#2}{#3}{#4}{#5}{#6}`
+%    - #1: optional; spacing between source and destination categories (default: 4em)
+%    - #2: source category of functors
+%    - #3: destination category of functors
+%    - #4: source functor
+%    - #5: destination functor
+%    - #6: name of natural transformation
+%
+%    For example, `\nattrans[1pt]{\mathcal{C}}{\mathcal{D}}{\(F\)}{\(G\)}{\(\alpha\)}`
+%    denotes a natural transformation `\alpha: F \to G` where `F` and `G` are functors `C \to D`,
+%    with 1pt of spacing between `C` and `D`
+\newcommand{\nattrans}[6][4em]{%
+    \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+        #2
+            \arrow[bend left=50]{r}[name=U,label=#4]{}
+            \arrow[bend right=50]{r}[name=D,label=below:#5]{} \&
+        #3
+            \arrow[shorten <=8pt,shorten >=2pt,Rightarrow,to path={(U) -- node[label={[xshift=-0.3em]right:#6}] {} (D)}]{}
+    \end{tikzcd}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatother

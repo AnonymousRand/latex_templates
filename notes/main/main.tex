@@ -1,0 +1,38 @@
+% document and subfile import initialization
+\documentclass[12pt]{article}
+\usepackage[subpreambles=false]{standalone}
+
+% import preamble and custom commands
+\usepackage{macros}
+\input{preamble}
+
+% title page
+\title{\Huge Math 420 - Learning to Count \\ Notes}
+\author{insert funny joke}
+\date{\normalsize Textbook: Mathematics Made Difficult, 1st Edition (Linderholm)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+% note that I may have reordered sections in a way that makes sense to me
+% (dates of lectures are given in comments in the subfiles)
+\import{main/sections/1_lorem_ipsum_dolor_sit_amongus/}{main}
+
+% time tracker: :3 hours
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\vspace*{\fill}
+\begin{center}
+    {\Huge\verb|the end :3|}
+\end{center}
+\vspace*{\fill}
+\end{document}

@@ -1,0 +1,67 @@
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages & Options
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% note: use `ulem` normally for inline math support, but `soul` for line wrapping
+\usepackage{algorithm, amsmath, amsfonts, amssymb, amsthm, bm, cancel, centernot, diagbox, enumitem, footnote, gensymb, hyperref, import, latexsym, makecell, mathrsfs, mathtools, mleftright, multirow, pgfplots, quoting, seqsplit, soul, stmaryrd, tabu, textcomp, tikz, tikz-cd, titlesec, ulem, xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage[skip=7.25pt, indent=0pt]{parskip}
+\usepackage[many, skins]{tcolorbox}
+\usepackage[noend]{algpseudocode}
+
+\usetikzlibrary{fit, shapes}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.18}
+\tikzcdset{every label/.append style={font=\normalsize}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% a font that's been growing on me (thank you [redacted])
+\usepackage{mathpazo}
+
+\allowdisplaybreaks                                      % equations can span multiple pages
+\setlist[itemize]{label=\textbullet}                     % nested bullets always uses bullets
+\tabulinesep=3pt                                         % `tabu` has more padding btwn borders & content
+\tabcolsep=3pt
+\renewcommand\qedsymbol{\(\blacksquare\)}                % QED is a filled-in square
+\renewcommand{\seqinsert}{\ifmmode\allowbreak\else\-\fi} % `\seqsplit` inserts hyphen at word break
+
+% section heading styles tweaked
+\newlength{\sectionspacing}
+\setlength{\sectionspacing}{2\parskip}
+\titleformat{\section}%
+    {\Huge\bfseries}%                    % text style
+    {\thesection}%                       % label (for toc?)
+    {1em}%                               % horiz space after punct and before text
+    {}%                                  % code to run before
+    [\vspace{0.25ex}{\titlerule[0.8pt]}] % code to run after
+\titlespacing*{\section}%
+    {0pt}%                               % left spacing
+    {\sectionspacing}%                   % top spacing
+    {\sectionspacing}                    % bottom spacing
+
+\titleformat{\subsection}%
+    {\LARGE\bfseries}%
+    {\thesubsection}%
+    {1em}%
+    {}
+\titlespacing*{\subsection}%
+    {0pt}%
+    {\sectionspacing}%
+    {\sectionspacing}
+
+\titleformat{\subsubsection}%
+    {\Large\bfseries}%
+    {\thesubsubsection}%
+    {1em}%
+    {}
+\titlespacing*{\subsubsection}%
+    {0pt}%
+    {\sectionspacing}%
+    {\sectionspacing}
+
+\makeatother

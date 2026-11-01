@@ -1,0 +1,26 @@
+\documentclass[12pt]{article}
+\usepackage{import}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\tikzexternalize[figure name=figure_, prefix=figure_pdfs/]
+
+% important to use `import` to set working directory for nested `\input`s etc.
+% yes I know this is bad, but I can't find an easy alternative D:
+% (you may need to disable some tex safeguards)
+\usepackage{../main/macros}
+\import{../}{main/preamble}
+
+\begin{document}
+
+% to render each `tikzcd`, put it as a node in a `tikzpicture`, e.g. between these two lines:
+% \begin{tikzpicture} \node {
+% }; \end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stuff to render here
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
