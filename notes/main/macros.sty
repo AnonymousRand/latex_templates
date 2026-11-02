@@ -455,16 +455,18 @@
 %    - #5: destination functor
 %    - #6: name of natural transformation
 %
-%    For example, `\nattrans[1pt]{\mathcal{C}}{\mathcal{D}}{\(F\)}{\(G\)}{\(\alpha\)}`
+%    For example, `\nattrans[1pt]{\mathcal{C}}{\mathcal{D}}{F}{G}{\alpha}`
 %    denotes a natural transformation `\alpha: F \to G` where `F` and `G` are functors `C \to D`,
 %    with 1pt of spacing between `C` and `D`
 \newcommand{\nattrans}[6][4em]{%
     \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
         #2
-            \arrow[bend left=50]{r}[name=U,label=#4]{}
-            \arrow[bend right=50]{r}[name=D,label=below:#5]{} \&
+            \ar[r, ""{name=top}, "#4", bend left=50]
+            \ar[r, ""{name=bot}, "#5"', bend right=50] \&
         #3
-            \arrow[shorten <=8pt,shorten >=2pt,Rightarrow,to path={(U) -- node[label={[xshift=-0.3em]right:#6}] {} (D)}]{}
+            \ar[Rightarrow, shorten <=8pt, shorten >=2pt, to path={
+                (top) -- node[label={[xshift=-0.3em]right:\(#6\)}] {} (bot)
+            }]{}
     \end{tikzcd}%
 }
 
