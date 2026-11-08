@@ -10,7 +10,7 @@
 \makeatletter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Util and Styling
+% util
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\allbf}[1]{{\boldmath\bfseries#1}}
@@ -42,7 +42,7 @@
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Environments
+% environments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newenvironment{eqsystem}[1][rl]
@@ -50,7 +50,7 @@
     {\end{array}\mright.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Theorems
+% theorems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newtheoremstyle{thm}
@@ -290,14 +290,14 @@
     {\end{pf}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Structures
+% structures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newlist{deepitemize}{itemize}{10}
 \setlist[deepitemize]{label=\textbullet}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Macros
+% macros
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \DeclareMathOperator{\Aut}{Aut}
@@ -353,13 +353,13 @@
 \newcommand{\ceil}[1]{\mleft\lceil #1\mright\rceil}
 \newcommand{\comb}[2]{{}^{#1}C_{#2}}
 \newcommand{\ddx}[1][x]{\frac{\mathrm{d}}{\mathrm{d} #1}}
-\newcommand{\dx}[1][x]{\,\mathrm{d} #1}             % dx at the end of integrals
+\newcommand{\dx}[1][x]{\mathrm{d} #1}               % differentials
 \newcommand{\dydx}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
 \newcommand{\dddxx}[1][x]{\frac{\mathrm{d}^2}{\mathrm{d} #1^2}}
 \newcommand{\ddydxx}[2]{\frac{\mathrm{d}^2 #1}{\mathrm{d} #2^2}}
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\floor}[1]{\mleft\lfloor #1\mright\rfloor}
-\newcommand{\ftc}[3]{\mleft[#1\mright]_{#2}^{#3}}   % fund thm of calc`[]` notation after integration
+\newcommand{\ftc}[3]{\mleft[#1\mright]_{#2}^{#3}}   % ftc `[]` notation after integration
 \newcommand{\generator}[1]{\langle #1 \rangle}
 \newcommand{\hr}{\rule{\linewidth}{0.4pt}}          % horizontal rule
 \newcommand{\iffshort}{\Leftrightarrow}
@@ -394,7 +394,7 @@
 \newcommand{\suchthatlr}{\,\middle\vert\,}
 \newcommand{\tobij}[1][]{\xleftrightarrow{#1}} % pass optional arg in square brackets for label
 \newcommand{\toinc}[1][]{\xhookrightarrow{#1}}
-\newcommand{\toinj}{\rightarrowtail}           % gah no labeled version
+\newcommand{\toinj}{\rightarrowtail}           % gah no labeled version 3:<
 \newcommand{\toiso}[1][]{\xrightarrow[#1]{\sim}}
 \newcommand{\tosur}{\twoheadrightarrow}
 \newcommand{\xto}[1]{\xrightarrow{#1}}
@@ -402,10 +402,10 @@
 
 \renewcommand{\restriction}{\vert}
 
-% Use this if ending proof in display math mode or nested environment to make QED not go onto next line.
+% use this if ending proof in display math or environment to make the qed not go to the next line.
 %
-% Prerequisites:
-%    - No other `\tag` is being used on last line of equation
+% prerequisites:
+%    - no other `\tag` is being used on the last line of the equation.
 \newcommand{\qedinside}{%
     \relax\ifmmode%
         \tag*{\qedhere}%
@@ -414,13 +414,13 @@
     \fi%
 }
 
-% Column/row vectors with parentheses.
+% column/row vectors with parentheses.
 %
-% Usage:
+% usage:
 %    - `\vect{}{}...\vend`
 %    - `\rvect{}{}...\rend`
 %
-% (Who knew my Assembly class would be useful for implementing a while loop in LaTeX?)
+% (who knew my assembly class would be useful for implementing a while loop in latex? >w<)
 \newcommand{\vect}[1]{\begin{pmatrix} #1 \@vectorcheck}     % starts first row and checks for more
 \newcommand\@vectorcheck{%                                  % branch dependending on if `\vend` is read
     \@ifnextchar\vend{%
@@ -445,9 +445,9 @@
 \newcommand\@rowvectorend{\end{pmatrix}}
 \newcommand{\rvend}{}
 
-% Natural transformation "visual" notation.
+% "mini commutative diagram" visualization for natural transformations.
 %
-% Params: `\nattrans[#1]{#2}{#3}{#4}{#5}{#6}`
+% params: `\nattrans[#1]{#2}{#3}{#4}{#5}{#6}`
 %    - #1: optional; spacing between source and destination categories (default: 4em)
 %    - #2: source category of functors
 %    - #3: destination category of functors
@@ -455,7 +455,7 @@
 %    - #5: destination functor
 %    - #6: name of natural transformation
 %
-%    For example, `\nattrans[1pt]{\mathcal{C}}{\mathcal{D}}{F}{G}{\alpha}`
+%    for example, `\nattrans[1pt]{\mathcal{C}}{\mathcal{D}}{F}{G}{\alpha}`
 %    denotes a natural transformation `\alpha: F \to G` where `F` and `G` are functors `C \to D`,
 %    with 1pt of spacing between `C` and `D`
 \newcommand{\nattrans}[6][4em]{%
